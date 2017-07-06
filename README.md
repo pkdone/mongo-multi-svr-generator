@@ -4,7 +4,7 @@
 
 Automates the configuring/running of a quick and dirty, self contained, replicated and sharded MongoDB environment on the local Linux host machine, to help a user explore these features - not to be used for real production environments.
 
-By default, creates an environment containing the following 11 server processes:
+By default, creates an environment containing the following 11 server processes, listening on different local ports:
 
               --REPLICA-0 mongod
         SHARD0--REPLICA-1 mongod
