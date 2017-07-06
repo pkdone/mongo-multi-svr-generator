@@ -6,21 +6,21 @@ Automates the configuring/running of a quick and dirty, self contained, replicat
 
 By default, creates an environment containing the following 11 server processes:
 
-        /-REPLICA-0 mongod
-  SHARD0--REPLICA-1 mongod
-        \-REPLICA-2 mongod
+              --REPLICA-0 mongod
+        SHARD0--REPLICA-1 mongod
+              --REPLICA-2 mongod
 
-        /-REPLICA-0 mongod
-  SHARD1--REPLICA-1 mongod
-        \-REPLICA-2 mongod
+              --REPLICA-0 mongod
+        SHARD1--REPLICA-1 mongod
+              --REPLICA-2 mongod
 
-        /-CONFIG-SVR-1 mongod
-  CONFIG--CONFIG-SVR-2 mongod
-        \-CONFIG-SVR-3 mongod
+              --CONFIG-SVR-1 mongod
+        CONFIG--CONFIG-SVR-2 mongod
+              --CONFIG-SVR-3 mongod
 
-        /-MONGOS-SVR-0 mongos
-  ROUTER
-        \-MONGOS-SVR-1 mongos
+              --MONGOS-SVR-0 mongos
+        ROUTER
+              --MONGOS-SVR-1 mongos
 
 
 ## Pre-Requisites
