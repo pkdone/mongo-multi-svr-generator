@@ -25,7 +25,7 @@ By default, creates an environment containing the following 11 server processes,
 
 ## Pre-Requisites
 
-*  Tested on Linux only (Ubuntu 14.04 x86-64) - other Linuxes should be fine, MACs may be ok too, but not tested.
+*  Tested on Linux only (Ubuntu 14.04 x86-64 - other Linuxes should be fine). Mac OS X hosts may be ok too, but haven't tested.
 *  Requires recent version on MongoDB (eg. 3.2.x) already installed on the local machine - earlier versions not supported due to the use of the newer feature "Config Server Replica Set".
 
 
@@ -33,13 +33,13 @@ By default, creates an environment containing the following 11 server processes,
 
 0.  In this root directory, modify file 'localenv' to reflect the local settings required
 
-1.  From the terminal, run the following to delete and re-create the directories to hold Mongo server data files and logs:
+1.  From the terminal, run the following to delete and re-create the directories to hold Mongo server data files and logs (also kills any mongod/mongos processes that happen to be running on the local machine):
 
     ```
     $ ./1_rebuild_target_directories.sh
     ```
 
-2.  From the terminal, run the following to configure and start the servers with replication and sharding (this takes a few minutes when first run, whilst mongod server initialise their data files)
+2.  From the terminal, run the following to configure and start the servers with replication and sharding (this takes a few minutes when first run, if not using "smallfiles", whilst mongod server initialises its data files)
 
     ```
     $ ./2_start_servers.sh
