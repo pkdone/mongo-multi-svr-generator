@@ -1,5 +1,5 @@
 #!/bin/sh
-# See tuturial "Deploy a Sharded Cluster": https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/
+# See tutorial "Deploy a Sharded Cluster": https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/
 # Note: Running servers with following params which you may want to remove:  --smallfiles --oplogSize 50 
 . ./localenv
 
@@ -67,7 +67,7 @@ for router in `seq 0 ${MAX_ROUTER}`; do
     printf "Router mongos server:\n" >> ${OUTFILE}
     echo "${MONGO_BIN_DIR}/mongos --logpath \"${ROOT_DIR}/router/router${router}/logs/rtr${router}.log\" --configdb \"csrs/${configHostPortList}\" --port ${port} --fork" >> ${OUTFILE}
     ${MONGO_BIN_DIR}/mongos --logpath "${ROOT_DIR}/router/router${router}/logs/rtr${router}.log" --configdb "csrs/${configHostPortList}" --port ${port} --fork
-    summary="${summary}\nmongos\trouter server ${router}  \tport: ${port}"
+    summary="${summary}\nmongos\trouter server ${router} \tport: ${port}"
     printf "\n"
     printf "\n" >> ${OUTFILE}
 done
@@ -76,11 +76,10 @@ done
 printf "~~Initialising sharding on replica sets using 1st mongos router\n"
 #echo "var shardReplicaSetsURI='${shardReplicaSetsURIList}', dbname='${DB_TO_SHARD}', colctnname='${COLCTN_TO_SHARD}', shardkey='${SHARD_KEY}'"
 ${MONGO_BIN_DIR}/mongo --host "${HOST}" --port "${ROUTERS_PORT_PREFIX}0" --eval "var shardReplicaSetsURI='${shardReplicaSetsURIList}', dbname='${DB_TO_SHARD}', colctnname='${COLCTN_TO_SHARD}', shardkey='${SHARD_KEY}'" js/configure_shards.js
-    printf "\n"
+printf "\n"
 
 # Print summary
 printf "\nSUMMARY\n~~~~~~~${summary}\n\n"
 printf "SUMMARY\n~~~~~~~${summary}\n\n" >> $OUTFILE
 printf "For more detail, inc. server start commands, see file: ${OUTFILE}\n\n"
-
 
