@@ -1,6 +1,7 @@
 #!/bin/sh
 # See tutorial "Deploy a Sharded Cluster": https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/
-# Note: Running servers with following params which you may want to remove:  --smallfiles --oplogSize 50 
+# Note: Running servers with following params, for fast start-up which you may want to remove:
+#  --smallfiles --oplogSize 50 
 . ./localenv
 
 OUTFILE=${ROOT_DIR}/summary.txt
@@ -81,5 +82,5 @@ printf "\n"
 # Print summary
 printf "\nSUMMARY\n~~~~~~~${summary}\n\n"
 printf "SUMMARY\n~~~~~~~${summary}\n\n" >> $OUTFILE
-printf "For more detail, inc. server start commands, see file: ${OUTFILE}\n\n"
+printf "For more details, including the commmands to all start again in the future, see file: ${OUTFILE}\n\n"
 

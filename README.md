@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Automates the configuring/running of a quick and dirty, self contained, replicated and sharded MongoDB environment on the local Linux host machine, to help a user explore these features - not to be used for real production environments.
+Automates the configuring/running of a quick and dirty, self contained, replicated and sharded MongoDB environment on a local Linux host machine, to help a user explore these features - not to be used for real production environments.
 
 By default, creates an environment containing the following 11 server processes, listening on different local ports:
 
@@ -25,8 +25,8 @@ By default, creates an environment containing the following 11 server processes,
 
 ## Pre-Requisites
 
-*  Tested on Linux only (Ubuntu 14.04 x86-64 - other Linuxes should be fine). Mac OS X hosts may be ok too, but haven't tested.
-*  Requires recent version on MongoDB (eg. 3.2.x) already installed on the local machine - earlier versions not supported due to the use of the newer feature "Config Server Replica Set".
+*  Tested on Linux only (Ubuntu 14.04 & 16.04 x86-64 - other Linux variants should be fine). Mac OS X hosts may be ok too, but haven't tested.
+*  Requires recent version on MongoDB (eg. 3.2.x or 3.4.x) already installed on the local machine - versions earlier than 3.2 are not supported due to the project's use of the newer feature "Config Server Replica Set".
 
 
 ## Usage Steps
@@ -52,7 +52,4 @@ By default, creates an environment containing the following 11 server processes,
     ```
 
 You should now be able to connect to one of the mongos processes, using the Mongo Shell, and run sh.status() to view the status of the cluster.
-
-
-**NOTE**: Step 2 can be re-run multiple times (it's much quicker for 2nd and subsequent runs as data files already exist), as long all mongod and mongos server processes are killed before each re-run.
 
