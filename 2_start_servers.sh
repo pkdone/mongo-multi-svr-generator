@@ -1,7 +1,5 @@
 #!/bin/sh
 # See tutorial "Deploy a Sharded Cluster": https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/
-# Note: Running servers with following params, for fast start-up which you may want to remove:
-#  --smallfiles --oplogSize 50 
 . ./localenv
 
 OUTFILE=${ROOT_DIR}/summary.txt
