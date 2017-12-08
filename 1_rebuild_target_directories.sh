@@ -11,7 +11,7 @@ printf "~~Removing contents of dir ${ROOT_DIR}\n"
 mv env/.gitignore ./_gitignore
 rm -rf ${ROOT_DIR}
 
-printf "~~Making directories under dir ${ROOT_DIR}\n"
+printf "~~Making directories under ${ROOT_DIR}\n"
 
 # Create Shard mongod server directories (assumes 3 replica sets per shard)
 for shard in `seq 0 ${MAX_SHARD}`; do

@@ -26,7 +26,7 @@ By default, creates an environment containing the following 11 server processes,
 ## Pre-Requisites
 
 *  Tested on Linux only (Ubuntu 14.04 & 16.04 x86-64 - other Linux variants should be fine). Mac OS X hosts may be ok too, but haven't tested.
-*  Requires recent version on MongoDB (eg. 3.2.x or 3.4.x) already installed on the local machine - versions earlier than 3.2 are not supported due to the project's use of the newer feature "Config Server Replica Set".
+*  Requires recent version on MongoDB (eg. 3.2.x, 3.4.x or 3.6) already installed on the local machine - versions earlier than 3.2 are not supported due to the project's use of the preferred modern way to configure a "config db" as a "Config Server Replica Set", which is not supported in earlier versions.
 
 
 ## Usage Steps

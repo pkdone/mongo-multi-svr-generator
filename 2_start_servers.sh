@@ -16,8 +16,9 @@ for config in `seq 0 ${MAX_CONFIG}`; do
     printf "~~Starting: Config server ${config}\n"
     port="${CONFIGS_PORT_PREFIX}${config}"
     printf "Config server ${config}:\n" >> ${OUTFILE}
-    echo "${MONGO_BIN_DIR}/mongod --configsvr --replSet csrs --logpath \"${ROOT_DIR}/config/config${config}/logs/cfg${config}.log\" --dbpath \"${ROOT_DIR}/config/config${config}/data\" --port ${port} --fork --smallfiles --oplogSize 50" >> ${OUTFILE}
-    ${MONGO_BIN_DIR}/mongod --configsvr --replSet csrs --logpath "${ROOT_DIR}/config/config${config}/logs/cfg${config}.log" --dbpath "${ROOT_DIR}/config/config${config}/data" --port ${port} --fork --smallfiles --oplogSize 50 
+    cmd="${MONGO_BIN_DIR}/mongod --configsvr --replSet csrs --logpath \"${ROOT_DIR}/config/config${config}/logs/cfg${config}.log\" --dbpath \"${ROOT_DIR}/config/config${config}/data\" --port ${port} --fork --smallfiles --oplogSize 50 --bind_ip 0.0.0.0"
+    echo "${cmd}" >> ${OUTFILE}
+    eval "${cmd}"
     configHostPortList="${configHostPortList}${HOST}:${port},"
     summary="${summary}\nmongod\tconfig server ${config}  \tport: ${port}"
     printf "\n"
@@ -35,8 +36,9 @@ for shard in `seq 0 ${MAX_SHARD}`; do
         printf "~~Starting: Shard ${shard} - Replica ${replica}\n"
         port="${SHARDS_PORT_PREFIX}${shard}${replica}"
         printf "Shard ${shard} - Replica ${replica}:\n" >> ${OUTFILE}
-        echo "${MONGO_BIN_DIR}/mongod --shardsvr --replSet s${shard} --logpath \"${ROOT_DIR}/shard${shard}/rs${replica}/logs/s${shard}-r${replica}.log\" --dbpath \"${ROOT_DIR}/shard${shard}/rs${replica}/data\" --port ${port} --fork --smallfiles --oplogSize 50" >> ${OUTFILE}
-        ${MONGO_BIN_DIR}/mongod --shardsvr --replSet s${shard} --logpath "${ROOT_DIR}/shard${shard}/rs${replica}/logs/s${shard}-r${replica}.log" --dbpath "${ROOT_DIR}/shard${shard}/rs${replica}/data" --port ${port} --fork --smallfiles --oplogSize 50 
+        cmd="${MONGO_BIN_DIR}/mongod --shardsvr --replSet s${shard} --logpath \"${ROOT_DIR}/shard${shard}/rs${replica}/logs/s${shard}-r${replica}.log\" --dbpath \"${ROOT_DIR}/shard${shard}/rs${replica}/data\" --port ${port} --fork --smallfiles --oplogSize 50 --bind_ip 0.0.0.0"
+        echo "${cmd}" >> ${OUTFILE}
+        eval "${cmd}"    
         summary="${summary}\nmongod\tshard-replica ${shard}-${replica}\tport: ${port}"
         printf "\n"
         printf "\n" >> ${OUTFILE}
@@ -66,8 +68,9 @@ for router in `seq 0 ${MAX_ROUTER}`; do
     printf "~~Starting: Router mongos server ${router}\n"
     port="${ROUTERS_PORT_PREFIX}${router}"
     printf "Router mongos server:\n" >> ${OUTFILE}
-    echo "${MONGO_BIN_DIR}/mongos --logpath \"${ROOT_DIR}/router/router${router}/logs/rtr${router}.log\" --configdb \"csrs/${configHostPortList}\" --port ${port} --fork" >> ${OUTFILE}
-    ${MONGO_BIN_DIR}/mongos --logpath "${ROOT_DIR}/router/router${router}/logs/rtr${router}.log" --configdb "csrs/${configHostPortList}" --port ${port} --fork
+    cmd="${MONGO_BIN_DIR}/mongos --logpath \"${ROOT_DIR}/router/router${router}/logs/rtr${router}.log\" --configdb \"csrs/${configHostPortList}\" --port ${port} --fork --bind_ip 0.0.0.0" >> ${OUTFILE}
+    echo "${cmd}" >> ${OUTFILE}
+    eval "${cmd}"    
     summary="${summary}\nmongos\trouter server ${router} \tport: ${port}"
     printf "\n"
     printf "\n" >> ${OUTFILE}
@@ -75,12 +78,11 @@ done
 
 # Via the first Router mongos, configure sharding with the set of replica sets, via mongo shell and enable sharding for a db.collection
 printf "~~Initialising sharding on replica sets using 1st mongos router\n"
-#echo "var shardReplicaSetsURI='${shardReplicaSetsURIList}', dbname='${DB_TO_SHARD}', colctnname='${COLCTN_TO_SHARD}', shardkey='${SHARD_KEY}'"
 ${MONGO_BIN_DIR}/mongo --host "${HOST}" --port "${ROUTERS_PORT_PREFIX}0" --eval "var shardReplicaSetsURI='${shardReplicaSetsURIList}', dbname='${DB_TO_SHARD}', colctnname='${COLCTN_TO_SHARD}', shardkey='${SHARD_KEY}'" js/configure_shards.js
 printf "\n"
 
 # Print summary
 printf "\nSUMMARY\n~~~~~~~${summary}\n\n"
 printf "SUMMARY\n~~~~~~~${summary}\n\n" >> $OUTFILE
-printf "For more details, including the commmands to all start again in the future, see file: ${OUTFILE}\n\n"
+printf "For more details, including the commmands to start all existing servers up again in the future, see file: ${OUTFILE}\n\n"
 
