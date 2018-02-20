@@ -4,8 +4,7 @@
 printf "\n"
 printf "~~Killing all mongod & mongos processes on this host (then waiting 5 secs)\n"
 killall mongos
-killall mongod
-sleep 5
+killall mongod && sleep 5
 
 printf "~~Removing contents of dir ${ROOT_DIR}\n"
 mv env/.gitignore ./_gitignore
