@@ -58,7 +58,7 @@ done
 configHostPortList=${configHostPortList%?}
 shardReplicaSetsURIList=${shardReplicaSetsURIList%?}
 
-# Need a little sleep before mongoses
+# Need a little sleep before starting mongos servers
 sleep 1
 
 # Start each of the Router mongos servers

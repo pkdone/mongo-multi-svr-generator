@@ -1,5 +1,5 @@
 # Change these to match your local environment
-MONGO_BIN_DIR=/opt/mongodb/mongodb-linux-x86_64-enterprise-ubuntu1604-3.6.2/bin
+MONGO_BIN_DIR=/opt/mongodb/mongodb-linux-x86_64-enterprise-ubuntu1604-3.6.3/bin
 HOST=localhost
 ROOT_DIR=$(pwd)/env
 SHARDS_PORT_PREFIX=371

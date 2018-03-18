@@ -4,7 +4,7 @@
 
 print('-Initialising ' + numReplicas + " config replicas for config server replica set on " + host)
 
-config = {_id: "csrs", members:[]}
+config = {_id: "csrs", members:[], settings: {electionTimeoutMillis: 2000}}
 
 for (var replica = 0; replica < numReplicas; replica++) {
     config.members.push({_id: replica, host: host+":"+portPrefix+replica})

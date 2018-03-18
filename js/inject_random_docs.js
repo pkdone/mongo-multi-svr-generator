@@ -6,7 +6,7 @@ print('-Injecting into collection ' + dbname + '.' + colctnname + ' including sh
 
 db = db.getSiblingDB(dbname)
 
-// Use this to take modoulo to get groups of values in each shard key value
+// Use this to later take modulo to get groups of values in each shard key value
 var divisor = 8
 
 for (var i = 0; i < quantity; i++) {

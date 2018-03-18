@@ -9,6 +9,8 @@ killall mongod && sleep 5
 printf "~~Removing contents of dir ${ROOT_DIR}\n"
 mv env/.gitignore ./_gitignore
 rm -rf ${ROOT_DIR}
+mkdir -p env
+mv _gitignore env/.gitignore
 
 printf "~~Making directories under ${ROOT_DIR}\n"
 
@@ -31,6 +33,5 @@ for router in `seq 0 ${MAX_ROUTER}`; do
     mkdir -p $ROOT_DIR/router/router${router}/logs
 done
 
-mv _gitignore env/.gitignore
 printf "\n"
 
