@@ -14,7 +14,7 @@ for config in `seq 0 ${MAX_CONFIG}`; do
     printf "~~Starting: Config server ${config}\n"
     port="${CONFIGS_PORT_PREFIX}${config}"
     printf "Config server ${config}:\n" >> ${OUTFILE}
-    cmd="${MONGO_BIN_DIR}/mongod --configsvr --replSet csrs --logpath \"${ROOT_DIR}/config/config${config}/logs/cfg${config}.log\" --dbpath \"${ROOT_DIR}/config/config${config}/data\" --port ${port} --fork --smallfiles --oplogSize 50 --bind_ip 0.0.0.0"
+    cmd="${MONGO_BIN_DIR}/mongod --configsvr --replSet csrs --logpath \"${ROOT_DIR}/config/config${config}/logs/cfg${config}.log\" --dbpath \"${ROOT_DIR}/config/config${config}/data\" --port ${port} --fork --bind_ip 0.0.0.0"
     echo "${cmd}" >> ${OUTFILE}
     eval "${cmd}"
     configHostPortList="${configHostPortList}${HOST}:${port},"
@@ -34,7 +34,7 @@ for shard in `seq 0 ${MAX_SHARD}`; do
         printf "~~Starting: Shard ${shard} - Replica ${replica}\n"
         port="${SHARDS_PORT_PREFIX}${shard}${replica}"
         printf "Shard ${shard} - Replica ${replica}:\n" >> ${OUTFILE}
-        cmd="${MONGO_BIN_DIR}/mongod --shardsvr --replSet s${shard} --logpath \"${ROOT_DIR}/shard${shard}/rs${replica}/logs/s${shard}-r${replica}.log\" --dbpath \"${ROOT_DIR}/shard${shard}/rs${replica}/data\" --port ${port} --fork --smallfiles --oplogSize 50 --bind_ip 0.0.0.0"
+        cmd="${MONGO_BIN_DIR}/mongod --shardsvr --replSet s${shard} --logpath \"${ROOT_DIR}/shard${shard}/rs${replica}/logs/s${shard}-r${replica}.log\" --dbpath \"${ROOT_DIR}/shard${shard}/rs${replica}/data\" --port ${port} --fork --bind_ip 0.0.0.0"
         echo "${cmd}" >> ${OUTFILE}
         eval "${cmd}"    
         summary="${summary}\nmongod\tshard-replica ${shard}-${replica}\tport: ${port}"
