@@ -7,13 +7,19 @@ print('-Injecting into collection ' + dbname + '.' + colctnname + ' including sh
 db = db.getSiblingDB(dbname)
 
 // Use this to later take modulo to get groups of values in each shard key value
-var divisor = 8
+const shard_key_divisor = 8
 
-for (var i = 0; i < quantity; i++) {
-    var doc = {}
-    doc[shardkey] = i % divisor
+// Create possible colour values
+const colours = ['red', 'blue', 'green'];
+const colour_divisor = colours.length;
+
+for (let i = 0; i < quantity; i++) {
+    let doc = {}
+    doc[shardkey] = i % shard_key_divisor
     doc.randValue = Math.random()
+    doc.favColour = colours[i % colour_divisor];
+    doc.message = "Hello from the document which has the a value: " + doc.randValue;
     db[colctnname].insert(doc)
 }
 
-print('-Injected ' + quantity + ' docs where shard key had range of ' + divisor + ' values')
+print('-Injected ' + quantity + ' docs where shard key had range of ' + shard_key_divisor + ' values')

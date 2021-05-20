@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 # See tutorial "Deploy a Sharded Cluster": https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/
 . ./localenv
 
@@ -25,7 +25,7 @@ done
 
 # Connect to the 1st server in the Config Server Replica Set, via mongo shell and initialise the replica set
 printf "~~Initialising config server replica set\n"
-${MONGO_BIN_DIR}/mongo --port "${CONFIGS_PORT_PREFIX}0" --eval "var host='${HOST}', portPrefix='${CONFIGS_PORT_PREFIX}', numReplicas='${NUM_CONFIGS}'" js/initiate_csrs.js
+${MONGO_SHELL_CMD} --port "${CONFIGS_PORT_PREFIX}0" --eval "var host='${HOST}', portPrefix='${CONFIGS_PORT_PREFIX}', numReplicas='${NUM_CONFIGS}'" js/initiate_csrs.js
 printf "\n"
 
 # For each Shard, start set of Replica mongod servers 
@@ -50,7 +50,7 @@ done
 # For each Shard, connect to the 1st Replica server, via mongo shell and initialise the replica set
 for shard in `seq 0 ${MAX_SHARD}`; do
     printf "~~Initialising replica set ready for shard ${shard}\n"
-    ${MONGO_BIN_DIR}/mongo --port "${SHARDS_PORT_PREFIX}${shard}0" --eval "var host='${HOST}', portPrefix='${SHARDS_PORT_PREFIX}', shard=${shard}, numReplicas='${NUM_REPLICAS_PER_SHARD}'" js/initiate_replicaset.js
+    ${MONGO_SHELL_CMD} --port "${SHARDS_PORT_PREFIX}${shard}0" --eval "var host='${HOST}', portPrefix='${SHARDS_PORT_PREFIX}', shard=${shard}, numReplicas='${NUM_REPLICAS_PER_SHARD}'" js/initiate_replicaset.js
     printf "\n"
 done
 
@@ -76,7 +76,7 @@ done
 
 # Via the first Router mongos, configure sharding with the set of replica sets, via mongo shell and enable sharding for a db.collection
 printf "~~Initialising sharding on replica sets using 1st mongos router\n"
-${MONGO_BIN_DIR}/mongo --host "${HOST}" --port "${ROUTERS_PORT_PREFIX}0" --eval "var shardReplicaSetsURI='${shardReplicaSetsURIList}', dbname='${DB_TO_SHARD}', colctnname='${COLCTN_TO_SHARD}', shardkey='${SHARD_KEY}'" js/configure_shards.js
+${MONGO_SHELL_CMD} --host "${HOST}" --port "${ROUTERS_PORT_PREFIX}0" --eval "var shardReplicaSetsURI='${shardReplicaSetsURIList}', dbname='${DB_TO_SHARD}', colctnname='${COLCTN_TO_SHARD}', shardkey='${SHARD_KEY}'" js/configure_shards.js
 printf "\n"
 
 # Print summary

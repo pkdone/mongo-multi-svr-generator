@@ -1,18 +1,20 @@
 # Change these to match your local environment
-MONGO_BIN_DIR=/opt/mongodb/mongodb-linux-x86_64-enterprise-ubuntu1804-4.0.2/bin
+MONGO_BIN_DIR=/opt/mongodb/mongodb-linux-x86_64-enterprise-ubuntu2004-4.4.6/bin
+MONGO_SHELL_CMD=/opt/mongodb/mongodb-linux-x86_64-enterprise-ubuntu2004-4.4.6/bin/mongo
+#MONGO_SHELL_CMD=/opt/mongodb/mongosh/bin/mongo
 HOST=localhost
 ROOT_DIR=$(pwd)/env
 SHARDS_PORT_PREFIX=371
 CONFIGS_PORT_PREFIX=3720
 ROUTERS_PORT_PREFIX=3730
-NUM_SHARDS=2
+NUM_SHARDS=4
 NUM_REPLICAS_PER_SHARD=3
 NUM_CONFIGS=3
 NUM_ROUTERS=2
 DB_TO_SHARD=mytestdb
 COLCTN_TO_SHARD=mycoll
 SHARD_KEY=mykey
-QTY_DOCS_TO_INJECT=100000
+QTY_DOCS_TO_INJECT=2000000
 
 
 
