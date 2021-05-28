@@ -2,9 +2,9 @@
 # See tutorial "Deploy a Sharded Cluster": https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/
 . ./localenv
 
-OUTFILE=${ROOT_DIR}/summary.txt
+OUTFILE=${ROOT_DIR}/restart_processes.sh
 printf "\n"
-printf "\nCOMMANDS\n~~~~~~~~\n" > ${OUTFILE}
+printf "#!/bin/sh -e\n\n" > ${OUTFILE}
 configHostPortList=""
 shardReplicaSetsURIList=""
 summary=""
@@ -13,7 +13,7 @@ summary=""
 for config in `seq 0 ${MAX_CONFIG}`; do
     printf "~~Starting: Config server ${config}\n"
     port="${CONFIGS_PORT_PREFIX}${config}"
-    printf "Config server ${config}:\n" >> ${OUTFILE}
+    printf "printf \"Config server ${config}: \"\n" >> ${OUTFILE}
     cmd="${MONGO_BIN_DIR}/mongod --configsvr --replSet csrs --logpath \"${ROOT_DIR}/config/config${config}/logs/cfg${config}.log\" --dbpath \"${ROOT_DIR}/config/config${config}/data\" --port ${port} --fork --bind_ip 0.0.0.0"
     echo "${cmd}" >> ${OUTFILE}
     eval "${cmd}"
@@ -33,7 +33,7 @@ for shard in `seq 0 ${MAX_SHARD}`; do
     for replica in `seq 0 ${MAX_REPLICA}`; do
         printf "~~Starting: Shard ${shard} - Replica ${replica}\n"
         port="${SHARDS_PORT_PREFIX}${shard}${replica}"
-        printf "Shard ${shard} - Replica ${replica}:\n" >> ${OUTFILE}
+        printf "printf \"Shard ${shard} - Replica ${replica}: \"\n" >> ${OUTFILE}
         cmd="${MONGO_BIN_DIR}/mongod --shardsvr --replSet s${shard} --logpath \"${ROOT_DIR}/shard${shard}/rs${replica}/logs/s${shard}-r${replica}.log\" --dbpath \"${ROOT_DIR}/shard${shard}/rs${replica}/data\" --port ${port} --fork --bind_ip 0.0.0.0"
         echo "${cmd}" >> ${OUTFILE}
         eval "${cmd}"    
@@ -60,12 +60,13 @@ shardReplicaSetsURIList=${shardReplicaSetsURIList%?}
 
 # Need a little sleep before starting mongos servers
 sleep 1
-
+printf "sleep 1\n\n" >> ${OUTFILE}
+    
 # Start each of the Router mongos servers
 for router in `seq 0 ${MAX_ROUTER}`; do
     printf "~~Starting: Router mongos server ${router}\n"
     port="${ROUTERS_PORT_PREFIX}${router}"
-    printf "Router mongos server:\n" >> ${OUTFILE}
+    printf "printf \"Router mongos server: \"\n" >> ${OUTFILE}
     cmd="${MONGO_BIN_DIR}/mongos --logpath \"${ROOT_DIR}/router/router${router}/logs/rtr${router}.log\" --configdb \"csrs/${configHostPortList}\" --port ${port} --fork --bind_ip 0.0.0.0" >> ${OUTFILE}
     echo "${cmd}" >> ${OUTFILE}
     eval "${cmd}"    
@@ -81,6 +82,7 @@ printf "\n"
 
 # Print summary
 printf "\nSUMMARY\n~~~~~~~${summary}\n\n"
-printf "SUMMARY\n~~~~~~~${summary}\n\n" >> $OUTFILE
-printf "For more details, including the commmands to start all existing servers up again in the future, see file: ${OUTFILE}\n\n"
+printf "cat << EOM\nSUMMARY\n~~~~~~~${summary}\n\nEOM\n\n" >> $OUTFILE
+printf "To restart the server processes in the future execute the generated start-up script:\n ${OUTFILE}\n\n"
+chmod u+x $OUTFILE
 

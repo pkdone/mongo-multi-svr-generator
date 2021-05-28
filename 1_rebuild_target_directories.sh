@@ -2,9 +2,9 @@
 . ./localenv
 
 printf "\n"
-printf "~~Killing all mongod & mongos processes on this host (then waiting 5 secs)\n"
+printf "~~Killing all mongod & mongos processes on this host (then WAITING 15 secs)\n"
 killall mongos || true
-killall mongod || true && sleep 5
+killall mongod || true && sleep 15
 
 printf "~~Removing contents of dir ${ROOT_DIR}\n"
 mv env/.gitignore ./_gitignore
