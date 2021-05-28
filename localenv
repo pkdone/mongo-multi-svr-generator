@@ -1,7 +1,7 @@
 # Change these to match your local environment
-MONGO_BIN_DIR=/opt/mongodb/mongodb-linux-x86_64-enterprise-ubuntu2004-4.4.6/bin
-MONGO_SHELL_CMD=/opt/mongodb/mongodb-linux-x86_64-enterprise-ubuntu2004-4.4.6/bin/mongo
-#MONGO_SHELL_CMD=/opt/mongodb/mongosh/bin/mongo
+MONGO_BIN_DIR=/opt/mongodb/mongodb-linux-x86_64-ubuntu1804-4.0.24/bin
+#MONGO_SHELL_CMD=/opt/mongodb/mongodb-linux-x86_64-enterprise-ubuntu2004-4.4.6/bin/mongo
+MONGO_SHELL_CMD=/opt/mongodb/mongosh/bin/mongosh
 HOST=localhost
 ROOT_DIR=$(pwd)/env
 SHARDS_PORT_PREFIX=371
